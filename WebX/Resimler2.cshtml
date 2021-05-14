@@ -1,0 +1,253 @@
+﻿@{
+    Layout = null;
+}
+@using System.Data;
+@using System.Data.SqlClient;
+@using System.Collections;
+@using System.Globalization
+@using System.IO
+@using System.Configuration
+
+@{
+    ArrayList ar = new ArrayList();
+    ArrayList ar2 = new ArrayList();
+    ArrayList arDrGelen = new ArrayList();
+    ArrayList arDrGelen2 = new ArrayList();
+    ArrayList ar4 = new ArrayList();
+    string gelenveri = "";
+
+    //if (Session["kuladigelen"] == null)
+    //{
+    //    Session.Clear();
+    //}
+    //else
+    //{
+    //    gelenveri = Session["kuladigelen"].ToString();
+    //}
+
+
+    string baglnti = ConfigurationManager.ConnectionStrings["baglanticonfig"].ConnectionString;
+    SqlConnection cn = new SqlConnection(baglnti);
+
+
+
+    if (cn.State != ConnectionState.Open)
+    { cn.Open(); }
+
+    DataTable dtResimYolu = new DataTable();
+    SqlDataAdapter daResimYolu = new SqlDataAdapter("select resimYolu  from resim ", cn);
+    daResimYolu.Fill(dtResimYolu);
+    string a = "";
+    //foreach (string itema in Directory.GetFiles(Server.MapPath("~/Resimler/")))
+    //{
+    //    a = itema.Substring(44);
+    //    ar.Add(a);
+
+    //}
+
+    for (int i = 0; i < dtResimYolu.Rows.Count; i++)
+    {
+        if (dtResimYolu.Rows.Count != 0)
+        {
+            ar.Add(dtResimYolu.Rows[i][0]);
+        }
+
+    }
+
+
+    DataTable dt = new DataTable();
+    DataTable dtCount = new DataTable();
+    SqlDataAdapter daCount = new SqlDataAdapter("select count(*) from resim", cn);
+    SqlDataAdapter da = new SqlDataAdapter("select kuladi from resim  ", cn);
+    daCount.Fill(dtCount);
+    da.Fill(dt);
+    for (int i = 0; i < (int)dtCount.Rows[0][0]; i++)
+    {
+        if (dt.Rows != null)
+        {
+            arDrGelen.Add(dt.Rows[i][0]);
+        }
+    }
+
+    Session["count"] = dtCount.Rows[0][0];
+
+
+
+
+
+    cn.Close();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    if (cn.State != ConnectionState.Open)
+    { cn.Open(); }
+
+    //DataTable dt2 = new DataTable();
+    //SqlDataAdapter da2 = new SqlDataAdapter("select resimYolu from resim2", cn);
+    //da2.Fill(dt2);
+    string a2 = "";
+    //foreach (string itema2 in Directory.GetFiles(Server.MapPath("~/Resimler2/")))
+    //{
+    //    a2 = itema2.Substring(44);
+    //    ar2.Add(a2);
+
+    //}
+
+    for (int i = 0; i < dtResimYolu.Rows.Count; i++)
+    {
+        if (dtResimYolu.Rows.Count != 0)
+        {
+            ar2.Add(dtResimYolu.Rows[i][0]);
+        }
+
+    }
+
+
+    DataTable dt2 = new DataTable();
+    DataTable dtCount2 = new DataTable();
+    SqlDataAdapter daCount2 = new SqlDataAdapter("select count(*) from resim2", cn);
+    SqlDataAdapter da2 = new SqlDataAdapter("select kuladi from resim2  ", cn);
+    daCount2.Fill(dtCount2);
+    da2.Fill(dt2);
+    for (int i = 0; i < (int)dtCount2.Rows[0][0]; i++)
+    {
+        if (dt2.Rows != null)
+        {
+            arDrGelen2.Add(dt2.Rows[i][0]);
+        }
+    }
+
+
+    cn.Close();
+
+
+
+
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> &mdash; Resimler2</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="~/shutter/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/shutter/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/shutter/css/jquery-ui.css">
+    <link rel="stylesheet" href="~/shutter/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/shutter/css/owl.theme.default.min.css">
+
+    <link rel="stylesheet" href="~/shutter/css/bootstrap-datepicker.css">
+
+    <link rel="stylesheet" href="~/shutter/fonts/flaticon/font/flaticon.css">
+
+    <link rel="stylesheet" href="~/shutter/css/aos.css">
+    <link rel="stylesheet" href="~/shutter/css/fancybox.min.css">
+
+    <link rel="stylesheet" href="~/shutter/css/style.css">
+
+</head>
+<body>
+
+
+    <div class="site-wrap">
+
+       
+
+
+        <main class="main-content">
+            <div class="container-fluid photos">
+
+                <div style="margin-bottom:50px;"></div>
+
+                <div class="row align-items-stretch">
+                    @for (int item = 0; item < Convert.ToInt32(dtCount.Rows[0][0]); item++)
+                    {
+                        <div class="col-6 col-md-6 col-lg-3" data-aos="fade-up">
+                            <a href="@ar[item]" class="d-block photo-item" data-fancybox="gallery">
+                                <img src="@ar[item]" alt="Image" class="img-fluid">
+                                <div class="photo-text-more">
+                                    <span class="icon icon-search"></span>
+                                </div>
+                               
+                            </a>
+                        </div>
+
+                    }
+
+                    @for (int item2 = 0; item2 < Convert.ToInt32(dtCount2.Rows[0][0]); item2++)
+                    {
+                        <div class="col-6 col-md-6 col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                            <a href="@ar2[item2]" class="d-block photo-item" data-fancybox="gallery">
+                                <img src="@ar2[item2]" alt="Image" class="img-fluid">
+                                <div class="photo-text-more">
+                                    <span class="icon icon-search"></span>
+                                </div>
+                            </a>
+                        </div>
+
+                    }
+
+
+
+
+                </div>
+
+
+                <div class="row justify-content-center">
+                    <div class="col-md-12 text-center py-5">
+                        <p>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div> <!-- .site-wrap -->
+
+    <script src="~/shutter/js/jquery-3.3.1.min.js"></script>
+    <script src="~/shutter/js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="~/shutter/js/jquery-ui.js"></script>
+    <script src="~/shutter/js/popper.min.js"></script>
+    <script src="~/shutter/js/bootstrap.min.js"></script>
+    <script src="~/shutter/js/owl.carousel.min.js"></script>
+    <script src="~/shutter/js/jquery.stellar.min.js"></script>
+    <script src="~/shutter/js/jquery.countdown.min.js"></script>
+    <script src="~/shutter/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/shutter/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/shutter/js/aos.js"></script>
+
+    <script src="~/shutter/js/jquery.fancybox.min.js"></script>
+
+    <script src="~/shutter/js/main.js"></script>
+
+</body>
+</html>

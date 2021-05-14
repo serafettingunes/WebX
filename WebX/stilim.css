@@ -1,0 +1,27 @@
+﻿body {
+}
+
+.messagealert {
+    margin-top: 15px;
+    width: 900px;
+    border: 1px solid #ff0000;
+    background-color: red;
+    text-align: center;
+    font-size: 35px;
+    color: white;
+    display: block;
+    border-radius: inherit;
+}
+
+.olumlumesaj {
+    margin-top: 15px;
+    
+    width: 900px;
+    border: 1px solid lime;
+    background-color: lime;
+    text-align: center;
+    font-size: 35px;
+    color: white;
+    display: block;
+    border-radius: inherit;
+}

@@ -1,0 +1,164 @@
+﻿@using System.Data;
+@using System.Data.SqlClient;
+@using System.Collections;
+@using System.Globalization;
+@using System.Configuration
+@{
+    Layout = null;
+}
+@{
+    ArrayList ar = new ArrayList();
+    ArrayList ar2 = new ArrayList();
+    ArrayList arDrGelen = new ArrayList();
+    ArrayList arDrGelen2 = new ArrayList();
+    ArrayList ar4 = new ArrayList();
+    string gelenveri = "";
+
+    //if (Session["kuladigelen"] == null)
+    //{
+    //    Session.Clear();
+    //}
+    //else
+    //{
+    //    gelenveri = Session["kuladigelen"].ToString();
+    //}
+
+
+    string baglanticumle = ConfigurationManager.ConnectionStrings["baglanticonfig"].ConnectionString;
+    SqlConnection cn = new SqlConnection(baglanticumle);
+
+
+
+    if (cn.State != ConnectionState.Open)
+    { cn.Open(); }
+
+    DataTable dtResimYolu = new DataTable();
+    SqlDataAdapter daResimYolu = new SqlDataAdapter("select resimYolu  from resim ", cn);
+    daResimYolu.Fill(dtResimYolu);
+    string a = "";
+    for (int i = 0; i < dtResimYolu.Rows.Count; i++)
+    {
+        if (dtResimYolu.Rows.Count != 0)
+        {
+            ar.Add(dtResimYolu.Rows[i][0]);
+        }
+
+    }
+
+
+    DataTable dt = new DataTable();
+    DataTable dtCount = new DataTable();
+    SqlDataAdapter daCount = new SqlDataAdapter("select count(*) from resim", cn);
+    SqlDataAdapter da = new SqlDataAdapter("select kuladi from resim  ", cn);
+    daCount.Fill(dtCount);
+    da.Fill(dt);
+    for (int i = 0; i < (int)dtCount.Rows[0][0]; i++)
+    {
+        if (dt.Rows != null)
+        {
+            arDrGelen.Add(dt.Rows[i][0]);
+        }
+    }
+
+
+
+
+
+
+
+    cn.Close();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    if (cn.State != ConnectionState.Open)
+    { cn.Open(); }
+
+    //DataTable dt2 = new DataTable();
+    //SqlDataAdapter da2 = new SqlDataAdapter("select resimYolu from resim2", cn);
+    //da2.Fill(dt2);
+    string a2 = "";
+    for (int i = 0; i < dtResimYolu.Rows.Count; i++)
+    {
+        if (dtResimYolu.Rows.Count != 0)
+        {
+            ar2.Add(dtResimYolu.Rows[i][0]);
+        }
+
+    }
+
+
+    DataTable dt2 = new DataTable();
+    DataTable dtCount2 = new DataTable();
+    SqlDataAdapter daCount2 = new SqlDataAdapter("select count(*) from resim2", cn);
+    SqlDataAdapter da2 = new SqlDataAdapter("select kuladi from resim2  ", cn);
+    daCount2.Fill(dtCount2);
+    da2.Fill(dt2);
+    for (int i = 0; i < (int)dtCount2.Rows[0][0]; i++)
+    {
+        if (dt2.Rows != null)
+        {
+            arDrGelen2.Add(dt2.Rows[i][0]);
+        }
+    }
+
+
+    cn.Close();
+
+
+
+
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <title>Resimler4</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="keywords" content="VisualLightBox, LightBox, Photo Gallery, efeito lightbox jquery, jquery slider lightbox" />
+    <meta name="description" content="Visual LightBox Gallery created with VisualLightBox, a free wizard program that helps you easily generate beautiful Lightbox-style web photo galleries" />
+    <!-- Start VisualLightBox.com HEAD section -->
+    <link rel="stylesheet" href="index_files/vlb_files1/vlightbox1.css" type="text/css" />
+    <link rel="stylesheet" href="index_files/vlb_files1/visuallightbox.css" type="text/css" media="screen" />
+    <script src="index_files/vlb_engine/jquery.min.js" type="text/javascript"></script>
+    <script src="index_files/vlb_engine/visuallightbox.js" type="text/javascript"></script>
+    <!-- End VisualLightBox.com HEAD section -->
+
+</head>
+<body bgcolor="#ffffff">
+    <!-- Start VisualLightBox.com BODY section id=1 -->
+    <div id="vlightbox1">
+        @for (int item = 0; item < Convert.ToInt32(dtCount.Rows[0][0]); item++)
+        {
+            <a class="vlightbox1" href="@ar[item]" title="Ekleyen : @arDrGelen[item]"><img style="border-radius:7px;" height="120" width="160" src="@ar[item]" alt="Ekleyen : @arDrGelen[item]" /></a>
+        }
+        @for (int item2 = 0; item2 < Convert.ToInt32(dtCount2.Rows[0][0]); item2++)
+        {
+            <a class="vlightbox1" href="@ar2[item2]" title="Ekleyen : @arDrGelen2[item2]"><img style="border-radius:7px;" height="120" width="160" src="@ar2[item2]" alt="Ekleyen : @arDrGelen2[item2]" /></a>
+        }
+
+        <span class="vlb"><a href="http://visuallightbox.com">jquery lightbox alert</a>by VisualLightBox.com v6.1</span>
+    </div>
+    <script src="index_files/vlb_engine/vlbdata1.js" type="text/javascript"></script>
+    <!-- End VisualLightBox.com BODY section -->
+
+</body>
+</html>
+

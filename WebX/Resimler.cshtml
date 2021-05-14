@@ -1,0 +1,326 @@
+﻿@using System.Data;
+@using System.Data.SqlClient;
+@using System.Collections;
+@using System.Globalization
+@using System.Configuration
+
+@{
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Resimler</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+    <link href="~/html5up-parallelism/assets/css/main.css" rel="stylesheet" />
+    <noscript><link rel="stylesheet" href="~/html5up-parallelism/assets/css/noscript.css" /></noscript>
+</head>
+<body class="is-preload">
+
+
+    @*<script>
+            window.onbeforeunload = function () {
+
+                return "Çıkmak istediğinizden emin misiniz? Şifreniz sıfırlancak!!!";
+            }
+        </script>*@
+    <form id=""></form>
+    <div>
+        <script type="text/javascript">
+            function cikis(olay) {
+                if (!olay) olay = window.event;
+                olay.cancelBubble = true;
+                olay.returnValue = 'Çıkmak istediğinizden emin misiniz? Şifreniz sıfırlancak!!! ?';
+                if (olay.stopPropagation) {
+                    olay.stopPropagation();
+                    olay.preventDefault();
+                }
+            }
+            window.onbeforeunload = cikis; // cikis fonksiyonunu yükle çıkarken öne getir.</div>
+        </script>
+    </div>
+
+
+
+
+
+
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Main -->
+        <section id="main">
+
+            <!-- Items -->
+            <div class="items">
+
+                <div class="item intro span-2">
+                    <h1>Resimler</h1>
+                    <p>
+                        Resimlerinizi bu siteye ekleyebilirsiniz...<br />
+
+                    </p>
+                </div>
+                @{
+                    ArrayList ar = new ArrayList();
+                    ArrayList ar2 = new ArrayList();
+                    ArrayList arDrGelen = new ArrayList();
+                    ArrayList arDrGelen2 = new ArrayList();
+                    ArrayList ar4 = new ArrayList();
+                    string gelenveri = "";
+
+                    //if (Session["kuladigelen"] == null)
+                    //{
+                    //    Session.Clear();
+                    //}
+                    //else
+                    //{
+                    //    gelenveri = Session["kuladigelen"].ToString();
+                    //}
+
+
+                    string bglnt = ConfigurationManager.ConnectionStrings["baglanticonfig"].ConnectionString;
+                    SqlConnection cn = new SqlConnection(bglnt);
+
+
+
+                    if (cn.State != ConnectionState.Open)
+                    { cn.Open(); }
+
+                    DataTable dtResimYolu = new DataTable();
+                    SqlDataAdapter daResimYolu = new SqlDataAdapter("select resimYolu  from resim  ", cn);
+                    daResimYolu.Fill(dtResimYolu);
+                    string a = "";
+                    //foreach (string itema in Directory.GetFiles(Server.MapPath("~/Resimler/")))
+                    //{
+                    //    a = itema.Substring(51);
+                    //    ar.Add(a);
+
+                    //}
+
+                    for (int i = 0; i <dtResimYolu.Rows.Count ; i++)
+                    {
+                        if (dtResimYolu.Rows.Count!=0)
+                        {
+                            ar.Add(dtResimYolu.Rows[i][0]);
+                        }
+
+                    }
+
+
+
+
+
+
+
+
+                    DataTable dt = new DataTable();
+                    DataTable dtCount = new DataTable();
+                    SqlDataAdapter daCount = new SqlDataAdapter("select count(*) from resim",cn);
+                    SqlDataAdapter da = new SqlDataAdapter("select kuladi from resim  ", cn);
+                    daCount.Fill(dtCount);
+                    da.Fill(dt);
+                    for (int i = 0; i <(int)dtCount.Rows[0][0]; i++)
+                    {
+                        if (dt.Rows != null)
+                        {
+                            arDrGelen.Add(dt.Rows[i][0]);
+                        }
+                    }
+
+
+
+
+
+
+
+                    cn.Close();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    if (cn.State != ConnectionState.Open)
+                    { cn.Open(); }
+
+                    //DataTable dt2 = new DataTable();
+                    //SqlDataAdapter da2 = new SqlDataAdapter("select resimYolu from resim2", cn);
+                    //da2.Fill(dt2);
+                    string a2 = "";
+                    foreach (string itema2 in Directory.GetFiles(Server.MapPath("~/Resimler2/")))
+                    {
+                        a2 = itema2.Substring(52);
+                        ar2.Add(a2);
+
+                    }
+
+
+                    DataTable dt2 = new DataTable();
+                    DataTable dtCount2 = new DataTable();
+                    SqlDataAdapter daCount2 = new SqlDataAdapter("select count(*) from resim2",cn);
+                    SqlDataAdapter da2 = new SqlDataAdapter("select kuladi from resim2  ", cn);
+                    daCount2.Fill(dtCount2);
+                    da2.Fill(dt2);
+                    for (int i = 0; i <(int)dtCount2.Rows[0][0]; i++)
+                    {
+                        if (dt2.Rows != null)
+                        {
+                            arDrGelen2.Add(dt2.Rows[i][0]);
+                        }
+                    }
+
+
+                    cn.Close();
+
+
+
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                @for (int item = 0; item <Convert.ToInt32( dtCount.Rows[0][0])  ; item++)
+                {
+
+
+
+                    <article class="item thumb span-1">
+                        <h2>Ekleyen : @arDrGelen[item] </h2>
+                        <a href="@ar[item]" class="image"><img src="@ar[item]" alt=""></a>
+
+                    </article>
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+            <!-- Items -->
+            <div class="items">
+
+
+
+
+
+
+
+                @for (int item2 = 0; item2 < Convert.ToInt32( dtCount2.Rows[0][0]) ; item2++)
+                {
+                    <article class="item thumb span-1">
+
+                        <h2> Ekleyen : @arDrGelen2[item2] </h2>
+                        <a href="@ar2[item2]" class="image"><img src="@ar2[item2]" alt=""></a>
+                    </article>
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </section>
+
+        <!-- Footer -->
+        <section id="footer">
+            <section>
+                <p>
+                    This is <strong>Parallelism</strong>, a responsive portfolio site template by <a href="http://html5up.net">HTML5 UP</a>. Free for personal
+                    and commercial use under the <a href="http://html5up.net/license">Creative Commons Attribution</a> license.
+                </p>
+            </section>
+            <section>
+                <ul class="icons">
+                    <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                    <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                    <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                    <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+                    <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+                </ul>
+                <ul class="copyright">
+                    <li>&copy; Untitled</li>
+                    <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                </ul>
+            </section>
+        </section>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="~/html5up-parallelism/assets/js/jquery.min.js"></script>
+    <script src="~/html5up-parallelism/assets/js/jquery.poptrox.min.js"></script>
+    <script src="~/html5up-parallelism/assets/js/browser.min.js"></script>
+    <script src="~/html5up-parallelism/assets/js/breakpoints.min.js"></script>
+    <script src="~/html5up-parallelism/assets/js/util.js"></script>
+    <script src="~/html5up-parallelism/assets/js/main.js"></script>
+
+</body>
+</html>
