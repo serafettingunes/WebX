@@ -1,4 +1,4 @@
-Önce siteye üye olun.
+Önce siteye üye olun. https://resim.serafettingunes.com/
 
 Giriş sayfasına gite tıklayın.
 
